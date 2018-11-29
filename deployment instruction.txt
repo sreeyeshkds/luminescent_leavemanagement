@@ -1,0 +1,44 @@
+The deployment instructions
+
+create a virtual directory cofiguration  in the /etc/httpd/conf/vhosts/httpd.conf folder
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@testproject.com
+    ServerName testapi.testproject.com
+    ServerAlias testapi.testproject.com
+    DirectoryIndex index.php
+    DocumentRoot /www/testiq/html/public
+    ScriptAlias /cgi-bin/ /www/testiq/html/cgi-bin/
+    LogLevel warn
+    ErrorLog /www/testiq/logs/error_log
+    CustomLog /www/testiq/logs/access_log combined
+
+    <Directory "/www/testiq">
+        AllowOverride AuthConfig
+    </Directory>
+
+    # Force https connection
+    Options +FollowSymLinks
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteRule (.*) https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+</VirtualHost>
+
+
+Deploy the source code to the /www/testiq/html folder.
+
+chmod -R 755 /www/testiq/html
+
+chown -R apache:apache /www/testiq/html
+
+Execute the mysql deployment instructions present in the document root folder.
+
+The url for accessing the application will be as follows :-
+
+
+http://testapi.testproject.com/admin/applyforleave
+
+http://testapi.testproject.com/login
+
+
+
